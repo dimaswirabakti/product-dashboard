@@ -1,19 +1,39 @@
-import productsData from "@/data/products.json";
-import type { Product } from "@/features/products/types/product";
+// File ini hanya ada di Server Components
 
-// Async untuk simulasikan network delay & memaksa SSR
-export async function getAllProducts(): Promise<Product[]> {
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  return productsData as Product[];
+import {
+  fetchProducts,
+  fetchProductById,
+  fetchCategories,
+} from "@/features/products/api/productApi";
+import type {
+  Product,
+  ProductsResponse,
+  Category,
+} from "@/features/products/types/product";
+
+export type { Product, ProductsResponse, Category };
+
+// Untuk SSR di app/products/page.tsx
+export async function getAllProducts(limit = 12): Promise<Product[]> {
+  const response = await fetchProducts({ limit });
+  return response.products;
 }
 
-export async function getProductById(id: string): Promise<Product | null> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const product = productsData.find((p) => p.id === id);
-  return (product as Product) ?? null;
+// Untuk SSR di app/products/[id]/page.tsx
+export async function getProductById(id: number): Promise<Product | null> {
+  try {
+    return await fetchProductById(id);
+  } catch {
+    return null;
+  }
 }
 
+// Ambil daftar kategori
 export async function getCategories(): Promise<string[]> {
-  const products = await getAllProducts();
-  return Array.from(new Set(products.map((p) => p.category)));
+  try {
+    const categories = await fetchCategories();
+    return categories.map((c) => c.name);
+  } catch {
+    return [];
+  }
 }

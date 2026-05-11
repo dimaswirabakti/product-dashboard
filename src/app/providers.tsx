@@ -13,8 +13,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           queries: {
             // Dalam 60 detik, data dianggap fresh. tidak ada refetch ke API,
             staleTime: 60 * 1000,
-            // Cache tetap di memori selama 5 menit
-            // setelah semua komponen yang pakai query ini unmount
+            // Cache tetap di memori selama 5 menit setelah semua komponen yang pakai query ini unmount
             gcTime: 5 * 60 * 1000,
             retry: 1,
             refetchOnWindowFocus: false,

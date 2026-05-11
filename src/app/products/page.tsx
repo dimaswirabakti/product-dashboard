@@ -5,7 +5,7 @@ export default async function ProductsPage() {
   console.log(`[SERVER] Rendering /products at ${new Date().toISOString()}`);
 
   const [products, categories] = await Promise.all([
-    getAllProducts(),
+    getAllProducts(12),
     getCategories(),
   ]);
 

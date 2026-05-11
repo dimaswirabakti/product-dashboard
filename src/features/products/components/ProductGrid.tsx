@@ -17,7 +17,7 @@ export function ProductGrid({ initialProducts, categories }: ProductGridProps) {
 
   // Filtering di client — Demonstrasi CSR
   const filteredProducts = initialProducts.filter((product) => {
-    const matchesSearch = product.name
+    const matchesSearch = product.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     const matchesCategory =
