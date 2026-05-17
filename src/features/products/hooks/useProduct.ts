@@ -17,7 +17,6 @@ export function useProduct({ id, initialData }: UseProductOptions) {
 
     initialData,
 
-    // Halaman detail refetch setiap 5 menit
     staleTime: 5 * 60 * 1000,
   });
 

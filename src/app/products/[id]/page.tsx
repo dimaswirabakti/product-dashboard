@@ -93,9 +93,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <span className="text-gray-600">{product.stock} units</span>
             </p>
             <p>
-              <span className="font-medium text-gray-900">Rating:</span>{" "}
+              <span className="font-medium text-gray-900">Rating: </span>{" "}
               <span className="text-gray-600">
-                ⭐ {product.rating.toFixed(1)} / 5
+                 {product.rating.toFixed(1)} / 5
               </span>
             </p>
             <p>

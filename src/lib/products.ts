@@ -1,5 +1,3 @@
-// File ini hanya ada di Server Components
-
 import {
   fetchProducts,
   fetchProductById,
@@ -13,13 +11,11 @@ import type {
 
 export type { Product, ProductsResponse, Category };
 
-// Untuk SSR di app/products/page.tsx
 export async function getAllProducts(limit = 12): Promise<Product[]> {
   const response = await fetchProducts({ limit });
   return response.products;
 }
 
-// Untuk SSR di app/products/[id]/page.tsx
 export async function getProductById(id: number): Promise<Product | null> {
   try {
     return await fetchProductById(id);
@@ -28,7 +24,6 @@ export async function getProductById(id: number): Promise<Product | null> {
   }
 }
 
-// Ambil daftar kategori
 export async function getCategories(): Promise<string[]> {
   try {
     const categories = await fetchCategories();

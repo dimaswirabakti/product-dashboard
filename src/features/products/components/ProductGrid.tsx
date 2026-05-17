@@ -39,8 +39,7 @@ export function ProductGrid({ initialProducts, categories }: ProductGridProps) {
     setSelectedCategory(category ?? "");
   }, []);
 
-  // Indikator: user mengetik tapi API belum dipanggil
-  // searchQuery sudah berubah, tapi debouncedQuery belum
+  // Saat mengetik, searchQuery sudah berubah, tapi debouncedQuery belum
   const isTyping = searchQuery !== debouncedQuery;
 
   return (
@@ -55,7 +54,8 @@ export function ProductGrid({ initialProducts, categories }: ProductGridProps) {
         />
       </div>
 
-      {/* Indicator: mengetik vs fetching */}
+      {/* Indikator mengetik vs fetching */}
+
       {isTyping && (
         <div className="flex items-center gap-2 text-sm text-gray-400">
           <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" />

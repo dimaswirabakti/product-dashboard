@@ -51,7 +51,6 @@ export function useProducts({
         }
       : undefined,
 
-    // Refetch setiap 60 detik
     staleTime: 60 * 1000,
   });
 
@@ -65,7 +64,6 @@ export function useProducts({
     isError: query.isError,
     error: query.error,
 
-    // Raw query object kalau perlu akses lebih
     query,
   };
 }

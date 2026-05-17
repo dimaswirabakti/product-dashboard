@@ -17,7 +17,6 @@ export const apiClient = axios.create({
 // REQUEST INTERCEPTOR
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Log di development untuk debugging
     if (process.env.NODE_ENV === "development") {
       console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`);
     }
@@ -29,10 +28,9 @@ apiClient.interceptors.request.use(
   },
 );
 
-// RESPONSE INTERCEPTOR, berjalan setelah setiap response diterima
+// RESPONSE INTERCEPTOR
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
-    // Response sukses, langsung return
     return response;
   },
   (error: AxiosError) => {

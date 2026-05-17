@@ -115,7 +115,7 @@ export function CartDrawer() {
                         style={{ borderColor: "var(--color-border)" }}
                         aria-label="Decrease quantity"
                       >
-                        −
+                        -
                       </button>
 
                       <span className="w-8 text-center text-sm font-medium">

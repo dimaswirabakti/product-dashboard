@@ -14,7 +14,6 @@ export interface Product {
   availabilityStatus: string;
 }
 
-// Response shape dari GET /products dan GET /products/search
 export interface ProductsResponse {
   products: Product[];
   total: number;
@@ -22,14 +21,12 @@ export interface ProductsResponse {
   limit: number;
 }
 
-// Shape dari GET /products/categories
 export interface Category {
   slug: string;
   name: string;
   url: string;
 }
 
-// Parameter untuk query products
 export interface ProductsParams {
   limit?: number;
   skip?: number;
