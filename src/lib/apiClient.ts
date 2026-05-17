@@ -39,31 +39,30 @@ apiClient.interceptors.response.use(
 
       switch (status) {
         case 401:
-          console.error("[API] Unauthorized — please log in");
+          console.error("[API] Unauthorized: please log in");
           break;
 
         case 403:
-          console.error("[API] Forbidden — insufficient permissions");
+          console.error("[API] Forbidden: insufficient permissions");
           break;
 
         case 404:
-          // Resource tidak ditemukan
+          console.error("[API] Not found: Resource not found");
           break;
 
         case 429:
-          console.error("[API] Rate limited — too many requests");
+          console.error("[API] Rate limited: too many requests");
           break;
 
         case 500:
-          console.error("[API] Server error — please try again later");
+          console.error("[API] Server error: please try again later");
           break;
       }
     } else if (error.request) {
       // Request dikirim tapi tidak ada response
-      console.error("[API] Network error — check your connection");
+      console.error("[API] Network error: check your connection");
     }
 
-    // Re-throw agar TanStack Query bisa handle
     return Promise.reject(error);
   },
 );
