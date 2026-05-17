@@ -13,8 +13,8 @@ export default async function ProductsPage() {
     <main className="container mx-auto px-4 py-8">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Product Dashboard</h1>
-        <p className="text-gray-500 mt-2">
-          Menampilkan {products.length} produk
+        <p className="text-gray-500 mt-1 text-sm">
+          Discover and explore our product catalog
         </p>
       </header>
 

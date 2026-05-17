@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { Search } from "lucide-react";
 
 interface ProductSearchBarProps {
@@ -7,7 +8,7 @@ interface ProductSearchBarProps {
   onChange: (value: string) => void;
 }
 
-export function ProductSearchBar({ value, onChange }: ProductSearchBarProps) {
+function ProductSearchBarComponent({ value, onChange }: ProductSearchBarProps) {
   return (
     <div className="relative flex-1">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -21,3 +22,5 @@ export function ProductSearchBar({ value, onChange }: ProductSearchBarProps) {
     </div>
   );
 }
+
+export const ProductSearchBar = memo(ProductSearchBarComponent);

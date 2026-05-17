@@ -1,12 +1,14 @@
 "use client";
 
+import { memo } from "react";
+
 interface CategoryFilterProps {
   categories: string[];
   selected: string | null;
   onSelect: (category: string | null) => void;
 }
 
-export function CategoryFilter({
+function CategoryFilterComponent({
   categories,
   selected,
   onSelect,
@@ -40,3 +42,5 @@ export function CategoryFilter({
     </div>
   );
 }
+
+export const CategoryFilter = memo(CategoryFilterComponent);

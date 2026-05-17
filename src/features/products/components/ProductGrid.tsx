@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import type { Product } from "@/features/products/types/product";
+import { useState, useCallback, useMemo } from "react";
+import { useProducts } from "../hooks";
+import { useDebounce } from "@/lib/hooks/useDebounce";
 import { ProductSearchBar } from "./ProductSearchBar";
 import { CategoryFilter } from "./CategoryFilter";
 import { ProductList } from "./ProductList";
+import type { Product } from "../types/product";
 
 interface ProductGridProps {
   initialProducts: Product[];
@@ -13,30 +15,76 @@ interface ProductGridProps {
 
 export function ProductGrid({ initialProducts, categories }: ProductGridProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  // Filtering di client — Demonstrasi CSR
-  const filteredProducts = initialProducts.filter((product) => {
-    const matchesSearch = product.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      !selectedCategory || product.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const debouncedQuery = useDebounce(searchQuery, 500);
+
+  const shouldUseInitialData = useMemo(
+    () => debouncedQuery === "" && selectedCategory === "",
+    [debouncedQuery, selectedCategory],
+  );
+
+  const { products, total, isPending, isFetching, isError, error } =
+    useProducts({
+      q: debouncedQuery,
+      category: selectedCategory,
+      initialData: shouldUseInitialData ? initialProducts : undefined,
+    });
+
+  const handleSearchChange = useCallback((value: string) => {
+    setSearchQuery(value);
+  }, []);
+
+  const handleCategoryChange = useCallback((category: string | null) => {
+    setSelectedCategory(category ?? "");
+  }, []);
+
+  // Indikator: user mengetik tapi API belum dipanggil
+  // searchQuery sudah berubah, tapi debouncedQuery belum
+  const isTyping = searchQuery !== debouncedQuery;
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-4">
-        <ProductSearchBar value={searchQuery} onChange={setSearchQuery} />
+      <div className="space-y-3">
+        <ProductSearchBar value={searchQuery} onChange={handleSearchChange} />
+
         <CategoryFilter
           categories={categories}
-          selected={selectedCategory}
-          onSelect={setSelectedCategory}
+          selected={selectedCategory || null}
+          onSelect={handleCategoryChange}
         />
       </div>
 
-      <ProductList products={filteredProducts} />
+      {/* Indicator: mengetik vs fetching */}
+      {isTyping && (
+        <div className="flex items-center gap-2 text-sm text-gray-400">
+          <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" />
+          Menunggu input selesai...
+        </div>
+      )}
+
+      {!isTyping && isFetching && !isPending && (
+        <div className="flex items-center gap-2 text-sm text-blue-600">
+          <span className="w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          Memperbarui data...
+        </div>
+      )}
+
+      {!isPending && !isError && !isTyping && (
+        <p className="text-sm text-gray-500">
+          Ditemukan <span className="font-medium text-gray-900">{total}</span>{" "}
+          produk
+          {debouncedQuery && ` untuk "${debouncedQuery}"`}
+          {selectedCategory && ` dalam kategori "${selectedCategory}"`}
+        </p>
+      )}
+
+      <ProductList
+        products={products}
+        isPending={isPending}
+        isError={isError}
+        error={error}
+      />
     </div>
   );
 }

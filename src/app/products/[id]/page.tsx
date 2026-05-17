@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui";
 import type { Metadata } from "next";
+import { AddToCartButton } from "@/features/products/components/AddToCartButton";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -112,6 +113,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </Badge>
             </p>
           </div>
+          <AddToCartButton product={product} />
         </div>
       </div>
     </main>
